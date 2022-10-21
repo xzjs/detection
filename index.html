@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>检测</title>
+    <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
+    <link
+      rel="stylesheet"
+      href="//unpkg.com/element-plus/theme-chalk/dark/css-vars.css"
+    />
+    <!-- Import Vue 3 -->
+    <script src="//unpkg.com/vue@3"></script>
+    <!-- Import component library -->
+    <script src="//unpkg.com/element-plus"></script>
+    <link rel="stylesheet" href="index.css" />
+    <!-- <script src="https://unpkg.com/@jiaminghi/data-view/dist/datav.min.vue.js"></script> -->
+    <script src="//unpkg.com/@element-plus/icons-vue"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>南高齿检测</h1>
+      <el-row :gutter="20" justify="center">
+        <el-col :span="8" v-loading="loading">
+          <el-card v-if="showResult">
+            <template #header>
+              <div class="card-header">
+                <span>检测出如下缺陷</span>
+                <el-button type="success" @click="cancel">重新选择</el-button>
+              </div>
+            </template>
+            <el-space wrap>
+              <el-image
+                v-for="img in flaws"
+                :src="'img/flaw/'+img.name"
+                fit="contain"
+                class="img"
+                @click="select(img)"
+              ></el-image>
+            </el-space>
+          </el-card>
+          <el-card v-else>
+            <template #header>
+              <div class="card-header">
+                <span>请选择图片</span>
+                <el-button type="success" @click="analyse">开始分析</el-button>
+              </div>
+            </template>
+            <el-upload
+              v-model:file-list="fileList"
+              action=""
+              list-type="picture-card"
+              multiple
+              :auto-upload="false"
+            >
+              <el-icon><Plus /></el-icon>
+            </el-upload>
+          </el-card>
+        </el-col>
+        <el-col :span="16" v-if="selected">
+          <el-card >
+            <el-row :gutter="20">
+              <el-col :span="14">
+                <el-image
+                  :src="'img/result/r'+selected.name"
+                  fit="contain"
+                ></el-image>
+              </el-col>
+              <el-col :span="10">
+                <el-image
+                  :src="'img/process/m'+selected.name"
+                  fit="contain"
+                ></el-image>
+                <el-result
+                  icon="warning"
+                  title="检测到缺陷"
+                  sub-title="此处显示结果分析"
+                ></el-result>
+              </el-col>
+            </el-row>
+          </el-card>
+        </el-col>
+      </el-row>
+    </div>
+
+    <script>
+      const App = {
+        data() {
+          return {
+            fileList: [],
+            flaws: [],
+            loading: false,
+            showResult: false,
+            selected: null,
+          };
+        },
+        methods: {
+          analyse() {
+            this.loading = true;
+            setTimeout(() => {
+              this.loading = false;
+            }, 500);
+            this.fileList.forEach((img) => {
+              if (img.name.indexOf("e") != -1) {
+                this.flaws.push(img);
+              }
+            });
+            this.showResult = true;
+          },
+          cancel() {
+            this.fileList = [];
+            this.flaws = [];
+            this.showResult = false;
+            this.selected = null;
+          },
+          select(e) {
+            this.selected = e;
+          },
+        },
+      };
+      const app = Vue.createApp(App);
+      for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+        app.component(key, component);
+      }
+      app.use(ElementPlus);
+      app.mount("#app");
+    </script>
+  </body>
+</html>
