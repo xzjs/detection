@@ -5,22 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>检测</title>
-    <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
-    <link
-      rel="stylesheet"
-      href="//unpkg.com/element-plus/theme-chalk/dark/css-vars.css"
-    />
+    <link rel="stylesheet" href="css/element.css" />
     <!-- Import Vue 3 -->
-    <script src="//unpkg.com/vue@3"></script>
+    <script src="js/vue.js"></script>
     <!-- Import component library -->
-    <script src="//unpkg.com/element-plus"></script>
+    <script src="js/element-plus.js"></script>
     <link rel="stylesheet" href="index.css" />
     <!-- <script src="https://unpkg.com/@jiaminghi/data-view/dist/datav.min.vue.js"></script> -->
-    <script src="//unpkg.com/@element-plus/icons-vue"></script>
+    <script src="js/icons-vue.js"></script>
   </head>
   <body>
     <div id="app">
-      <h1>南高齿检测</h1>
+      <h1>齿轮缺陷检测</h1>
       <el-row :gutter="20" justify="center">
         <el-col :span="8" v-loading="loading">
           <el-card v-if="showResult">
